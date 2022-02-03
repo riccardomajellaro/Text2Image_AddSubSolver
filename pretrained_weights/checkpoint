@@ -1,2 +1,2 @@
-model_checkpoint_path: "t2i"
-all_model_checkpoint_paths: "t2i"
+model_checkpoint_path: "mnist"
+all_model_checkpoint_paths: "mnist"
