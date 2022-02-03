@@ -111,8 +111,7 @@ def encode_text(text):
         return one_hot_mat
 
 
-def save_output(output, output_path):
-    img_name = "output.png"
+def save_output(output, output_path, img_name):
     if output_path[-1] not in ["/", "\\"]:
         img_name = "/" + img_name
 
@@ -120,8 +119,8 @@ def save_output(output, output_path):
         plt.subplot(1, 4, i+1)
         plt.imshow(output[0][i])
         plt.axis("off")
-    plt.savefig(output_path + img_name)
-    print(f"Output saved in {output_path}{img_name}")
+    plt.savefig(output_path + img_name + ".png")
+    print(f"Output saved in {output_path}{img_name}.png")
 
 
 if __name__ == "__main__":
@@ -166,4 +165,4 @@ if __name__ == "__main__":
         elif not re.search(r"(?:  | \d|\d\d)\d(?:\+|-)(?:  | \d|\d\d)\d", args.eval):
             exit(err_str)
         else:
-            save_output(t2i(encode_text(args.eval)), output_path=".")
+            save_output(t2i(encode_text(args.eval)), output_path=".", img_name=args.eval.replace(" ", ""))
