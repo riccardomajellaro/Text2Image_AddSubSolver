@@ -136,9 +136,6 @@ if __name__ == "__main__":
 
     if args.train is None and args.eval is None:
         parser.error("Use at least one argument between --train and --eval.")
-    
-    if args.train is not None and args.data is None:
-        parser.error("Include the path to the dataset with --data.")
 
     # instantiate t2i model and create weights
     t2i = Text2Image(latent_dim=128)
@@ -147,16 +144,19 @@ if __name__ == "__main__":
     if args.summary:
         t2i.build_graph().summary()
 
-    # load dataset and onehot encode it
-    x_text, y_img = np.load(args.data + "x_text.npy"), np.load(args.data + "y_img.npy")
-    x_text_oh = np.zeros((x_text.shape[0], max_query_length, len(unique_characters)))
-    for i, text in enumerate(x_text):
-        x_text_oh[i] = encode_text(text)
-
     if args.pretrained is not None:
         t2i.load_weights(args.pretrained)
 
     if args.train:
+        if args.data is None:
+            parser.error("Include the path to the dataset with --data.")
+
+        # load dataset and onehot encode it
+        x_text, y_img = np.load(args.data + "x_text.npy"), np.load(args.data + "y_img.npy")
+        x_text_oh = np.zeros((x_text.shape[0], max_query_length, len(unique_characters)))
+        for i, text in enumerate(x_text):
+            x_text_oh[i] = encode_text(text)
+
         # start training
         x_train, x_test, y_train, y_test = train_test_split(x_text_oh, y_img, test_size=1-args.train_size, shuffle=True, random_state=42)
         t2i.train(x_train, x_test, y_train, y_test, weights_path=args.train)
@@ -167,7 +167,7 @@ if __name__ == "__main__":
         err_str = "Evaluation string must have the form ddd?ddd, d=digit or whitespace and ?=\"+\" or \"-\""
         if len(args.eval) != 7:
             exit(err_str)
-        # elif not re.search(r"(?:  | \d|\d\d)\d(?:\+|-)(?:  | \d|\d\d)\d", args.eval):
-        #     exit(err_str)
+        elif not re.search(r"(?:  | \d|\d\d)\d(?:\+|-)(?:  | \d|\d\d)\d", args.eval):
+            exit(err_str)
         else:
             save_output(t2i(encode_text(args.eval)), output_path=args.eval_out, img_name=args.eval.replace(" ", ""))
