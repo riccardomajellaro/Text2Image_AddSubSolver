@@ -20,7 +20,7 @@ class Encoder(Layer):
         to a matrix of latent vectors.
     """
 
-    def __init__(self, latent_dim=128):
+    def __init__(self, latent_dim):
         """ latent_dim: dimension of the space where the input text is encoded to
         """
         super().__init__()
@@ -74,13 +74,11 @@ class Text2Image(tf.keras.Model):
         it outputs the result as a sequence of 4 28x28 images (sign and digits).
     """
     
-    def __init__(self, weights_path=None):
-        """ weights_path: path to the pretrained weights
-        """
+    def __init__(self, latent_dim=128):
         super().__init__()
-        self.weights_path = weights_path
         
-        self.encoder = Encoder()
+        # instantiate encoder and decoder
+        self.encoder = Encoder(latent_dim=latent_dim)
         self.decoder = Decoder()
     
     def call(self, inputs):
@@ -91,7 +89,7 @@ class Text2Image(tf.keras.Model):
         x = tf.keras.layers.Input(shape=(max_query_length, len(unique_characters)))
         return tf.keras.Model(inputs=[x], outputs=self.call(x))
 
-    def train(self, x_train, x_test, y_train, y_test, weights_path="pretrained_weights"):
+    def train(self, x_train, x_test, y_train, y_test, weights_path="training_output/weights"):
         self.compile(loss="binary_crossentropy", optimizer=Adam(learning_rate=0.001), metrics=["mae"])
         early_stop = tf.keras.callbacks.EarlyStopping(monitor="val_loss", mode="min", min_delta=0.0001, patience=20)
         history = self.fit(x_train, y_train, epochs=100, batch_size=32, validation_split=0.05, callbacks=[early_stop])
@@ -125,25 +123,32 @@ def save_output(output, output_path, img_name):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(formatter_class=argparse.MetavarTypeHelpFormatter)
-    parser.add_argument("--train", help="Include this argument to train the model", action="store_true")
+    parser.add_argument("--train", type=str, default=None, help="Path where to store trained weights")
+    parser.add_argument("--data", type=str, default=None, help="Path to dataset. The data should be in numpy \
+        format: x_text.npy and y_img.npy")
+    parser.add_argument("--train_size", type=float, default=0.8, help="Fraction of data to use for training the model")
     parser.add_argument("--eval", type=str, default=None, help="String to evaluate. \
         Must have the form ddd?ddd, d=digit or whitespace and ?=\"+\" or \"-\"")
+    parser.add_argument("--eval_out", type=str, default=".", help="Path where to store the output of the evaluation")
     parser.add_argument("--pretrained", type=str, default=None, help="Path to pretrained weights")
     parser.add_argument("--summary", help="Include this argument to print the summary of the model", action="store_true")
     args = parser.parse_args()
 
-    if not args.train and args.eval is None:
-        parser.error("Use at least one argument between --train and --eval")
+    if args.train is None and args.eval is None:
+        parser.error("Use at least one argument between --train and --eval.")
+    
+    if args.train is not None and args.data is None:
+        parser.error("Include the path to the dataset with --data.")
 
     # instantiate t2i model and create weights
-    t2i = Text2Image()
+    t2i = Text2Image(latent_dim=128)
     t2i(tf.ones(shape=(1, max_query_length, len(unique_characters))))
 
     if args.summary:
         t2i.build_graph().summary()
 
     # load dataset and onehot encode it
-    x_text, y_img = np.load("../../MSc/IntroDL/Assign3/X_text.npy"), np.load("../../MSc/IntroDL/Assign3/y_img.npy")
+    x_text, y_img = np.load(args.data + "x_text.npy"), np.load(args.data + "y_img.npy")
     x_text_oh = np.zeros((x_text.shape[0], max_query_length, len(unique_characters)))
     for i, text in enumerate(x_text):
         x_text_oh[i] = encode_text(text)
@@ -153,8 +158,8 @@ if __name__ == "__main__":
 
     if args.train:
         # start training
-        x_train, x_test, y_train, y_test = train_test_split(x_text_oh, y_img, test_size=0.6, shuffle=True, random_state=42)
-        t2i.train(x_train, x_test, y_train, y_test)
+        x_train, x_test, y_train, y_test = train_test_split(x_text_oh, y_img, test_size=1-args.train_size, shuffle=True, random_state=42)
+        t2i.train(x_train, x_test, y_train, y_test, weights_path=args.train)
 
     if args.eval is not None:
         # evaluate a single string given as argument --eval and save the output as a png
@@ -162,7 +167,7 @@ if __name__ == "__main__":
         err_str = "Evaluation string must have the form ddd?ddd, d=digit or whitespace and ?=\"+\" or \"-\""
         if len(args.eval) != 7:
             exit(err_str)
-        elif not re.search(r"(?:  | \d|\d\d)\d(?:\+|-)(?:  | \d|\d\d)\d", args.eval):
-            exit(err_str)
+        # elif not re.search(r"(?:  | \d|\d\d)\d(?:\+|-)(?:  | \d|\d\d)\d", args.eval):
+        #     exit(err_str)
         else:
-            save_output(t2i(encode_text(args.eval)), output_path=".", img_name=args.eval.replace(" ", ""))
+            save_output(t2i(encode_text(args.eval)), output_path=args.eval_out, img_name=args.eval.replace(" ", ""))
