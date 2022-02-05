@@ -15,4 +15,15 @@ PATH_1: path to pretrained weights
 PATH_2: path where to save the output images
 
 ## Examples
-!(output/2-78.png)
+### 2 - 78 =
+!(https://github.com/riccardomajellaro/Text2Image_AddSubSolver/blob/main/output/2-78.png)
+### 555 + 500 =
+!(https://github.com/riccardomajellaro/Text2Image_AddSubSolver/blob/main/output/555%2B500.png)
+### 623 + 271 =
+!(https://github.com/riccardomajellaro/Text2Image_AddSubSolver/blob/main/output/623%2B271.png)
+### 640 - 200 =
+!(https://github.com/riccardomajellaro/Text2Image_AddSubSolver/blob/main/output/640-200.png)
+### 950 - 20 =
+!(https://github.com/riccardomajellaro/Text2Image_AddSubSolver/blob/main/output/950-20.png)
+### 999 + 700 =
+!(https://github.com/riccardomajellaro/Text2Image_AddSubSolver/blob/main/output/999%2B700.png)
