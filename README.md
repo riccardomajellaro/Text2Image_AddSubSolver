@@ -15,3 +15,4 @@ PATH_1: path to pretrained weights
 PATH_2: path where to save the output images
 
 ## Examples
+!(output/2-78.png)
