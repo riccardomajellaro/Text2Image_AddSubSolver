@@ -1,6 +1,14 @@
 This repository contains the solution to the task 1.4 of the third assignment of the course Introduction to Deep Learning (Leiden University).  
 The goal is to predict the solution to addition/subtraction between two 3-digits (or less) numbers. The first number has to be positive. What makes this task not trivial is that the model has to generate the solution as a sequence of 4 images, each representing a digit, a - sign, or an empty space.
 
+## Requirements
+<ul>
+  <li>numpy - pip install numpy</li>
+  <li>numpy - pip install --upgrade tensorflow</li>
+  <li>numpy - python -m pip install -U matplotlib</li>
+  <li>numpy - pip install -U scikit-learn</li>
+</ul>
+
 ## Train
 `python --train PATH_1 --data PATH_2 --train_size 0.7 --pretrained PATH_3 --summary`  
 Remove --pretrained for training the model from scratch.  
