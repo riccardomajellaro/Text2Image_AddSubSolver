@@ -9,7 +9,7 @@ PATH_2: path to dataset
 PATH_3: path to pretrained weights  
 
 ## Run
-Evaluate a single expression defined in --eval. The expression must have the form ddd?ddd, d=digit or whitespace and ?=+ or - (e.g. " 27+  5").  
+Evaluate a single expression defined in --eval. The expression must have the form ddd?ddd, d=digit or whitespace and ?=+ or - (e.g. " 27+ &nbsp;5").  
 `python --eval "640-200" --pretrained PATH_1 --eval_out PATH_2`  
 PATH_1: path to pretrained weights  
 PATH_2: path where to save the output images
