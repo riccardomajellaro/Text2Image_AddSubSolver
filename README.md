@@ -3,10 +3,10 @@ The goal is to predict the solution to addition/subtraction between two 3-digits
 
 ## Requirements
 <ul>
-  <li>numpy - pip install numpy</li>
-  <li>numpy - pip install --upgrade tensorflow</li>
-  <li>numpy - pip install -U matplotlib</li>
-  <li>numpy - pip install -U scikit-learn</li>
+  <li>Numpy - pip install numpy</li>
+  <li>TensorFlow - pip install --upgrade tensorflow</li>
+  <li>Matplotlib - pip install -U matplotlib</li>
+  <li>Scikit-learn - pip install -U scikit-learn</li>
 </ul>
 
 ## Train
