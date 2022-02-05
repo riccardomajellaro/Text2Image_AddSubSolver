@@ -164,10 +164,7 @@ if __name__ == "__main__":
     if args.eval is not None:
         # evaluate a single string given as argument --eval and save the output as a png
         # check if the string has the correct format
-        err_str = "Evaluation string must have the form ddd?ddd, d=digit or whitespace and ?=\"+\" or \"-\""
-        if len(args.eval) != 7:
-            exit(err_str)
-        elif not re.search(r"(?:  | \d|\d\d)\d(?:\+|-)(?:  | \d|\d\d)\d", args.eval):
-            exit(err_str)
+        if len(args.eval) != 7 or not re.search(r"(?:  | \d|\d\d)\d(?:\+|-)(?:  | \d|\d\d)\d", args.eval):
+            exit("Evaluation string must have the form ddd?ddd, d=digit or whitespace and ?=\"+\" or \"-\"")
         else:
             save_output(t2i(encode_text(args.eval)), output_path=args.eval_out, img_name=args.eval.replace(" ", ""))
