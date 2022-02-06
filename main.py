@@ -93,8 +93,8 @@ class Text2Image(tf.keras.Model):
         self.compile(loss="binary_crossentropy", optimizer=Adam(learning_rate=0.001), metrics=["mae"])
         early_stop = tf.keras.callbacks.EarlyStopping(monitor="val_loss", mode="min", min_delta=0.0001, patience=20)
         history = self.fit(x_train, y_train, epochs=100, batch_size=32, validation_split=0.05, callbacks=[early_stop])
-        t2i.evaluate(x_test, y_test)
-        t2i.save_weights(weights_path)
+        self.evaluate(x_test, y_test)
+        self.save_weights(weights_path)
         return history
 
 
