@@ -4,7 +4,7 @@ The goal is to predict the solution to addition/subtraction between two 3-digits
 ## Requirements
 <ul>
   <li>Numpy - pip install numpy</li>
-  <li>TensorFlow - pip install --upgrade tensorflow</li>
+  <li>TensorFlow - pip install -U tensorflow</li>
   <li>Matplotlib - pip install -U matplotlib</li>
   <li>Scikit-learn - pip install -U scikit-learn</li>
 </ul>
