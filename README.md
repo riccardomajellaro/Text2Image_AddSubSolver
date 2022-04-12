@@ -11,16 +11,17 @@ The goal is to predict the solution to addition/subtraction between two 3-digits
   <li>Scikit-learn - pip install -U scikit-learn</li>
 </ul>
 
-## Train
+## Training
 ```
  python --train PATH_1 --data PATH_2 --train_size 0.7 --pretrained PATH_3 --summary
 ```
 Remove --pretrained for training the model from scratch.  
 PATH_1: path where to store the weights after the training  
-PATH_2: path to dataset  
-PATH_3: path to pretrained weights  
+PATH_2: path to dataset
+PATH_3: path to pretrained weights
+The data that I used was composed of different MNIST images stacked together, where + (optional, an empty image is sufficient) and - symbols were (partly) randomly generated using OpenCV. I will provide the data and/or the script to generate it in the future.
 
-## Run
+## Evaluation
 Evaluate a single expression defined in --eval. The expression must have the form ddd?ddd, d=digit or whitespace and ?=+ or - (e.g. " 27+ &nbsp;5").  
 ```
  python --eval "640-200" --pretrained PATH_1 --eval_out PATH_2
