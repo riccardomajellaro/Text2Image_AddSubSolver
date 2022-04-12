@@ -31,13 +31,18 @@ PATH_2: path where to save the output images
 ## Examples
 ### 2 - 78 =
 <img src="https://github.com/riccardomajellaro/Text2Image_AddSubSolver/blob/main/output/2-78.png" width="40%" />
+
 ### 555 + 500 =
 <img src="https://github.com/riccardomajellaro/Text2Image_AddSubSolver/blob/main/output/555%2B500.png" width="40%" />
+
 ### 623 + 271 =
 <img src="https://github.com/riccardomajellaro/Text2Image_AddSubSolver/blob/main/output/623%2B271.png" width="40%" />
+
 ### 640 - 200 =
 <img src="https://github.com/riccardomajellaro/Text2Image_AddSubSolver/blob/main/output/640-200.png" width="40%" />
+
 ### 950 - 20 =
 <img src="https://github.com/riccardomajellaro/Text2Image_AddSubSolver/blob/main/output/950-20.png" width="40%" />
+
 ### 999 + 700 =
 <img src="https://github.com/riccardomajellaro/Text2Image_AddSubSolver/blob/main/output/999%2B700.png" width="40%" />
