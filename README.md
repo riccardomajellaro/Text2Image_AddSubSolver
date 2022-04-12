@@ -19,6 +19,7 @@ Remove --pretrained for training the model from scratch.
 PATH_1: path where to store the weights after the training  
 PATH_2: path to dataset
 PATH_3: path to pretrained weights
+
 The data that I used was composed of different MNIST images stacked together, where + (optional, an empty image is sufficient) and - symbols were (partly) randomly generated using OpenCV. I will provide the data and/or the script to generate it in the future.
 
 ## Evaluation
